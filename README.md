@@ -29,6 +29,17 @@
 
 ```bash
 $ pnpm install
+
+
+podman run -d \
+  --name ecommerce \
+  -e POSTGRES_PASSWORD=Onboard@123 \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_DB=ecommerce \
+  -p 5432:5432 \
+  -v postgres_data:/var/lib/postgresql/data \
+  postgres:16
+
 ```
 
 ## Compile and run the project
