@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity()
+@Entity('todos')
 export class Todo {
   @PrimaryGeneratedColumn({ type: 'integer' })
   id: number;
