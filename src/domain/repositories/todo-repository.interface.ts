@@ -1,4 +1,4 @@
-import { TodoM } from '../model/todo';
+import { TodoM } from '../models/todo';
 
 export interface TodoRepository {
   insert(todo: TodoM): Promise<void>;

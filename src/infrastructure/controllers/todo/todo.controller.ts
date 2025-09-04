@@ -4,11 +4,11 @@ import {
   Inject,
 } from '@nestjs/common';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy';
+import { UseCaseProxy } from '../../usecases-proxy/usecase-proxy';
 import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
 import { TodoPresenter } from './todo.presenter';
 import { ApiResponseType } from '../../common/swagger/response.decorator';
-import { getTodosUseCases } from '../../../usecases/todo/getTodos.usecases';
+import { getTodosUseCases } from '../../../usecases/todo/get-todos.usecase';
 
 @Controller('todo')
 @ApiTags('todo')

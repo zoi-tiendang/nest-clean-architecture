@@ -1,11 +1,11 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { getTodosUseCases } from '../../usecases/todo/getTodos.usecases';
+import { getTodosUseCases } from '../../usecases/todo/get-todos.usecase';
 import { ExceptionsModule } from '../exceptions/exceptions.module';
 import { LoggerModule } from '../logger/logger.module';
 import { LoggerService } from '../logger/logger.service';
 import { RepositoriesModule } from '../repositories/repositories.module';
 import { DatabaseTodoRepository } from '../repositories/todo.repository';
-import { UseCaseProxy } from './usecases-proxy';
+import { UseCaseProxy } from './usecase-proxy';
 
 @Module({
   imports: [LoggerModule, RepositoriesModule, ExceptionsModule],
