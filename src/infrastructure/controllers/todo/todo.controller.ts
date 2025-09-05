@@ -1,13 +1,9 @@
-import {
-  Controller,
-  Get,
-  Inject,
-} from '@nestjs/common';
+import { Controller, Get, Inject } from '@nestjs/common';
 import { ApiExtraModels, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UseCaseProxy } from '../../usecases-proxy/usecase-proxy';
 import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
 import { TodoPresenter } from './todo.presenter';
-import { getTodosUseCases } from '../../../usecases/todo/get-todos.usecase';
+import { getTodosUseCase } from 'src/usecases/todo/get-todos.usecase';
 import { ApiResponseType } from 'src/infrastructure/common/swagger/response.decorator';
 
 @Controller('todo')
@@ -16,8 +12,8 @@ import { ApiResponseType } from 'src/infrastructure/common/swagger/response.deco
 @ApiExtraModels(TodoPresenter)
 export class TodoController {
   constructor(
-    @Inject(UsecasesProxyModule.GET_TODOS_USECASES_PROXY)
-    private readonly getAllTodoUsecaseProxy: UseCaseProxy<getTodosUseCases>,
+    @Inject(UsecasesProxyModule.GET_TODOS_USECASE_PROXY)
+    private readonly getAllTodoUsecaseProxy: UseCaseProxy<getTodosUseCase>,
   ) {}
 
   @Get('todos')

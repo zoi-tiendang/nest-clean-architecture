@@ -1,17 +1,22 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { getTodosUseCases } from '../../usecases/todo/get-todos.usecase';
 import { ExceptionsModule } from '../exceptions/exceptions.module';
 import { LoggerModule } from '../logger/logger.module';
-import { LoggerService } from '../logger/logger.service';
 import { RepositoriesModule } from '../repositories/repositories.module';
 import { DatabaseTodoRepository } from '../repositories/todo.repository';
 import { UseCaseProxy } from './usecase-proxy';
+import { DatabaseProductRepository } from '../repositories/product.repository';
+import { createProductUseCase } from 'src/usecases/products/create-product.usecase';
+import { DatabaseOrderRepository } from '../repositories/order.repository';
+import { getTodosUseCase } from 'src/usecases/todo/get-todos.usecase';
+import { placeOrderUseCase } from 'src/usecases/orders/place-order.usecase';
 
 @Module({
   imports: [LoggerModule, RepositoriesModule, ExceptionsModule],
 })
 export class UsecasesProxyModule {
-  static GET_TODOS_USECASES_PROXY = 'getTodosUsecasesProxy';
+  static GET_TODOS_USECASE_PROXY = 'getTodosUseCasesProxy';
+  static CREATE_PRODUCT_USECASE_PROXY = 'createProductUsecasesProxy';
+  static PLACE_ORDER_USECASE_PROXY = 'placeOrderUsecasesProxy';
 
   static register(): DynamicModule {
     return {
@@ -19,12 +24,33 @@ export class UsecasesProxyModule {
       providers: [
         {
           inject: [DatabaseTodoRepository],
-          provide: UsecasesProxyModule.GET_TODOS_USECASES_PROXY,
+          provide: UsecasesProxyModule.GET_TODOS_USECASE_PROXY,
           useFactory: (todoRepository: DatabaseTodoRepository) =>
-            new UseCaseProxy(new getTodosUseCases(todoRepository)),
+            new UseCaseProxy(new getTodosUseCase(todoRepository)),
+        },
+        {
+          inject: [DatabaseProductRepository],
+          provide: UsecasesProxyModule.CREATE_PRODUCT_USECASE_PROXY,
+          useFactory: (productRepository: DatabaseProductRepository) =>
+            new UseCaseProxy(new createProductUseCase(productRepository)),
+        },
+        {
+          inject: [DatabaseOrderRepository, DatabaseProductRepository],
+          provide: UsecasesProxyModule.PLACE_ORDER_USECASE_PROXY,
+          useFactory: (
+            orderRepository: DatabaseOrderRepository,
+            productRepository: DatabaseProductRepository,
+          ) =>
+            new UseCaseProxy(
+              new placeOrderUseCase(orderRepository, productRepository),
+            ),
         },
       ],
-      exports: [UsecasesProxyModule.GET_TODOS_USECASES_PROXY],
+      exports: [
+        UsecasesProxyModule.GET_TODOS_USECASE_PROXY,
+        UsecasesProxyModule.CREATE_PRODUCT_USECASE_PROXY,
+        UsecasesProxyModule.PLACE_ORDER_USECASE_PROXY,
+      ],
     };
   }
 }

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { EnvironmentConfigModule } from '../environment-config/environment-config.module';
 import { EnvironmentConfigService } from '../environment-config/environment-config.service';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 export const getTypeOrmModuleOptions = (
   config: EnvironmentConfigService,
@@ -21,6 +22,7 @@ export const getTypeOrmModuleOptions = (
     cli: {
       migrationsDir: 'src/migrations',
     },
+    namingStrategy: new SnakeNamingStrategy(),
     // ssl: {
     //   rejectUnauthorized: false,
     // },
