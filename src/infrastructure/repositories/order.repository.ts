@@ -2,19 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrderRepository } from 'src/domain/repositories/order-repository.interface';
-import { Order } from '../entities/order.entity';
+import { OrderEntity } from '../entities/order.entity';
 import { OrderM } from 'src/domain/models/order';
-import { OrderItem } from '../entities/order-item.entity';
+import { OrderItemEntity } from '../entities/order-item.entity';
 
 @Injectable()
 export class DatabaseOrderRepository implements OrderRepository {
   constructor(
-    @InjectRepository(Order)
-    private readonly orderEntityRepository: Repository<Order>,
+    @InjectRepository(OrderEntity)
+    private readonly orderEntityRepository: Repository<OrderEntity>,
   ) {}
 
-  private toOrderEntity(order: OrderM): Order {
-    const orderEntity = new Order();
+  private toOrderEntity(order: OrderM): OrderEntity {
+    const orderEntity = new OrderEntity();
     orderEntity.id = order.id;
     orderEntity.totalAmount = order.totalAmount;
     orderEntity.orderDate = order.orderDate;
@@ -24,7 +24,7 @@ export class DatabaseOrderRepository implements OrderRepository {
 
     if (order.orderItems) {
       orderEntity.orderItems = order.orderItems.map((item) => {
-        const itemEntity = new OrderItem();
+        const itemEntity = new OrderItemEntity();
         itemEntity.id = item.id;
         itemEntity.quantity = item.quantity;
         itemEntity.priceAtPurchase = item.priceAtPurchase;
@@ -37,7 +37,7 @@ export class DatabaseOrderRepository implements OrderRepository {
     return orderEntity;
   }
 
-  private toOrder(orderEntity: Order): OrderM {
+  private toOrder(orderEntity: OrderEntity): OrderM {
     const order: OrderM = {
       id: orderEntity.id,
       customerId: orderEntity.customerId,

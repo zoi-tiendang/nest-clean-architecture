@@ -6,9 +6,9 @@ import { DatabaseTodoRepository } from '../repositories/todo.repository';
 import { UseCaseProxy } from './usecase-proxy';
 import { DatabaseProductRepository } from '../repositories/product.repository';
 import { createProductUseCase } from 'src/usecases/products/create-product.usecase';
-import { DatabaseOrderRepository } from '../repositories/order.repository';
 import { getTodosUseCase } from 'src/usecases/todo/get-todos.usecase';
 import { placeOrderUseCase } from 'src/usecases/orders/place-order.usecase';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [LoggerModule, RepositoriesModule, ExceptionsModule],
@@ -35,15 +35,10 @@ export class UsecasesProxyModule {
             new UseCaseProxy(new createProductUseCase(productRepository)),
         },
         {
-          inject: [DatabaseOrderRepository, DatabaseProductRepository],
+          inject: [DataSource],
           provide: UsecasesProxyModule.PLACE_ORDER_USECASE_PROXY,
-          useFactory: (
-            orderRepository: DatabaseOrderRepository,
-            productRepository: DatabaseProductRepository,
-          ) =>
-            new UseCaseProxy(
-              new placeOrderUseCase(orderRepository, productRepository),
-            ),
+          useFactory: (dataSource: DataSource) =>
+            new UseCaseProxy(new placeOrderUseCase(dataSource)),
         },
       ],
       exports: [

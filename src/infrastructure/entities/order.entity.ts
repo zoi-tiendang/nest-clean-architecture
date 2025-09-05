@@ -5,10 +5,10 @@ import {
   CreateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { OrderItem } from './order-item.entity';
+import { OrderItemEntity } from './order-item.entity';
 
 @Entity('orders')
-export class Order {
+export class OrderEntity {
   @PrimaryGeneratedColumn({ type: 'integer' })
   id: number;
 
@@ -36,8 +36,8 @@ export class Order {
   @CreateDateColumn({ name: 'createdDate' })
   createdDate: Date;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
+  @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.order, {
     cascade: true,
   })
-  orderItems: OrderItem[];
+  orderItems: OrderItemEntity[];
 }

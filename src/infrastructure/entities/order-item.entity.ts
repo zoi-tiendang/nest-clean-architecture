@@ -4,12 +4,13 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
   ManyToOne,
+  Index,
 } from 'typeorm';
-import { Order } from './order.entity';
-import { Product } from './product.entity';
+import { OrderEntity } from './order.entity';
+import { ProductEntity } from './product.entity';
 
 @Entity('order_items')
-export class OrderItem {
+export class OrderItemEntity {
   @PrimaryGeneratedColumn({ type: 'integer' })
   id: number;
 
@@ -19,17 +20,21 @@ export class OrderItem {
   @Column('decimal', { precision: 10, scale: 2 })
   priceAtPurchase: number;
 
-  @ManyToOne(() => Order, (order) => order.orderItems, { onDelete: 'CASCADE' })
+  @ManyToOne(() => OrderEntity, (order) => order.orderItems, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'order_id' })
-  order: Order;
+  order: OrderEntity;
 
   @Column()
+  @Index()
   orderId: number;
 
-  @ManyToOne(() => Product)
+  @ManyToOne(() => ProductEntity)
   @JoinColumn({ name: 'product_id' })
-  product: Product;
+  product: ProductEntity;
 
   @Column()
+  @Index()
   productId: number;
 }

@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
-config({ path: `env/local.env` });
+config({ path: `env/${process.env.NODE_ENV}.env` });
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',

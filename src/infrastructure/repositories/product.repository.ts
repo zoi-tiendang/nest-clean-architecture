@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Product } from '../entities/product.entity';
+import { ProductEntity } from '../entities/product.entity';
 import { ProductRepository } from 'src/domain/repositories/product-repository.interface';
 import { ProductM } from 'src/domain/models/product';
 
 @Injectable()
 export class DatabaseProductRepository implements ProductRepository {
   constructor(
-    @InjectRepository(Product)
-    private readonly productEntityRepository: Repository<Product>,
+    @InjectRepository(ProductEntity)
+    private readonly productEntityRepository: Repository<ProductEntity>,
   ) {}
 
-  private toProductEntity(product: ProductM): Product {
-    const productEntity = new Product();
+  private toProductEntity(product: ProductM): ProductEntity {
+    const productEntity = new ProductEntity();
     productEntity.id = product.id;
     productEntity.name = product.name;
     productEntity.price = product.price;
@@ -22,7 +22,7 @@ export class DatabaseProductRepository implements ProductRepository {
     return productEntity;
   }
 
-  private toProductModel(productEntity: Product): ProductM {
+  private toProductModel(productEntity: ProductEntity): ProductM {
     const product = new ProductM();
     product.id = productEntity.id;
     product.name = productEntity.name;

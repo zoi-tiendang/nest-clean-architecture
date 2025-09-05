@@ -3,13 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TodoM } from '../../domain/models/todo';
 import { TodoRepository } from '../../domain/repositories/todo-repository.interface';
-import { Todo } from '../entities/todo.entity';
+import { TodoEntity } from '../entities/todo.entity';
 
 @Injectable()
 export class DatabaseTodoRepository implements TodoRepository {
   constructor(
-    @InjectRepository(Todo)
-    private readonly todoEntityRepository: Repository<Todo>,
+    @InjectRepository(TodoEntity)
+    private readonly todoEntityRepository: Repository<TodoEntity>,
   ) {}
 
   async updateContent(id: number, isDone: boolean): Promise<void> {
@@ -38,7 +38,7 @@ export class DatabaseTodoRepository implements TodoRepository {
     await this.todoEntityRepository.delete({ id: id });
   }
 
-  private toTodo(todoEntity: Todo): TodoM {
+  private toTodo(todoEntity: TodoEntity): TodoM {
     const todo: TodoM = new TodoM();
 
     todo.id = todoEntity.id;
@@ -50,8 +50,8 @@ export class DatabaseTodoRepository implements TodoRepository {
     return todo;
   }
 
-  private toTodoEntity(todo: TodoM): Todo {
-    const todoEntity: Todo = new Todo();
+  private toTodoEntity(todo: TodoM): TodoEntity {
+    const todoEntity: TodoEntity = new TodoEntity();
 
     todoEntity.id = todo.id;
     todoEntity.content = todo.content;
