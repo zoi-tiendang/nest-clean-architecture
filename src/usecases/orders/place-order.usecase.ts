@@ -53,7 +53,7 @@ export class placeOrderUseCase {
       orderEntity.status = 'pending';
       orderEntity.shippingAddress = placeOrderDto.shippingAddress;
       orderEntity.orderDate = new Date();
-      
+
       const savedOrder = await manager.save(orderEntity);
 
       return savedOrder;

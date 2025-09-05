@@ -1,15 +1,28 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProdutsController } from './products.controller';
+import { ProductsController } from './products.controller';
 
-describe('ProdutsController', () => {
-  let controller: ProdutsController;
+describe('ProductsController', () => {
+  let controller: ProductsController;
 
   beforeEach(async () => {
+
+    const mockCreateProductUseCase = {
+      execute: jest.fn(),
+    };
+    const mockUseCaseProxy = {
+      getInstance: () => mockCreateProductUseCase,
+    };
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [ProdutsController],
+      controllers: [ProductsController],
+      providers: [
+        {
+          provide: 'createProductUsecasesProxy',
+          useValue: mockUseCaseProxy,
+        },
+      ],
     }).compile();
 
-    controller = module.get<ProdutsController>(ProdutsController);
+    controller = module.get<ProductsController>(ProductsController);
   });
 
   it('should be defined', () => {

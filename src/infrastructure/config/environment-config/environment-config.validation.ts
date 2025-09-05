@@ -3,6 +3,7 @@ import { IsBoolean, IsEnum, IsNumber, IsString, validateSync } from 'class-valid
 
 enum Environment {
   Development = 'development',
+  UAT = 'uat',
   Production = 'production',
   Local = 'local',
   Test = 'test',
