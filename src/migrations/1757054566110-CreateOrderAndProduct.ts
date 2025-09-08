@@ -4,7 +4,6 @@ export class CreateOrderAndProduct1757054566110 implements MigrationInterface {
     name = 'CreateOrderAndProduct1757054566110'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE "todos" RENAME COLUMN "isDone" TO "is_done"`);
         await queryRunner.query(`CREATE TABLE "products" ("id" SERIAL NOT NULL, "name" character varying(255), "price" integer, "stock_quantity" integer, "is_for_sale" boolean NOT NULL DEFAULT false, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_0806c755e0aca124e67c0cf6d7d" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "order_items" ("id" SERIAL NOT NULL, "quantity" integer NOT NULL, "price_at_purchase" numeric(10,2) NOT NULL, "order_id" integer NOT NULL, "product_id" integer NOT NULL, CONSTRAINT "PK_005269d8574e6fac0493715c308" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "orders" ("id" SERIAL NOT NULL, "customer_id" integer, "status" character varying(50) NOT NULL, "total_amount" integer NOT NULL, "shipping_address" character varying(255) NOT NULL, "order_date" TIMESTAMP NOT NULL, "createdDate" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_710e2d4957aa5878dfe94e4ac2f" PRIMARY KEY ("id"))`);
@@ -18,7 +17,6 @@ export class CreateOrderAndProduct1757054566110 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE "orders"`);
         await queryRunner.query(`DROP TABLE "order_items"`);
         await queryRunner.query(`DROP TABLE "products"`);
-        await queryRunner.query(`ALTER TABLE "todos" RENAME COLUMN "is_done" TO "isDone"`);
     }
 
 }

@@ -2,11 +2,9 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { ExceptionsModule } from '../exceptions/exceptions.module';
 import { LoggerModule } from '../logger/logger.module';
 import { RepositoriesModule } from '../repositories/repositories.module';
-import { DatabaseTodoRepository } from '../repositories/todo.repository';
 import { UseCaseProxy } from './usecase-proxy';
 import { DatabaseProductRepository } from '../repositories/product.repository';
 import { createProductUseCase } from 'src/usecases/products/create-product.usecase';
-import { getTodosUseCase } from 'src/usecases/todo/get-todos.usecase';
 import { placeOrderUseCase } from 'src/usecases/orders/place-order.usecase';
 import { DataSource } from 'typeorm';
 
@@ -14,7 +12,6 @@ import { DataSource } from 'typeorm';
   imports: [LoggerModule, RepositoriesModule, ExceptionsModule],
 })
 export class UsecasesProxyModule {
-  static GET_TODOS_USECASE_PROXY = 'getTodosUseCasesProxy';
   static CREATE_PRODUCT_USECASE_PROXY = 'createProductUsecasesProxy';
   static PLACE_ORDER_USECASE_PROXY = 'placeOrderUsecasesProxy';
 
@@ -22,12 +19,6 @@ export class UsecasesProxyModule {
     return {
       module: UsecasesProxyModule,
       providers: [
-        {
-          inject: [DatabaseTodoRepository],
-          provide: UsecasesProxyModule.GET_TODOS_USECASE_PROXY,
-          useFactory: (todoRepository: DatabaseTodoRepository) =>
-            new UseCaseProxy(new getTodosUseCase(todoRepository)),
-        },
         {
           inject: [DatabaseProductRepository],
           provide: UsecasesProxyModule.CREATE_PRODUCT_USECASE_PROXY,
@@ -42,7 +33,6 @@ export class UsecasesProxyModule {
         },
       ],
       exports: [
-        UsecasesProxyModule.GET_TODOS_USECASE_PROXY,
         UsecasesProxyModule.CREATE_PRODUCT_USECASE_PROXY,
         UsecasesProxyModule.PLACE_ORDER_USECASE_PROXY,
       ],

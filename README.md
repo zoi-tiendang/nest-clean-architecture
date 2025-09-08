@@ -71,7 +71,7 @@ $ pnpm run test:cov
 ## DB Migrations
 
 ``` bash
-npm run migration:generate --name=create-todos
+npm run migration:generate --name=AddOrderAndProduct
 ```
 
 ## Deployment
